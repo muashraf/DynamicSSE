@@ -31,55 +31,7 @@ import textExtract.TextProc;
 
 public class DSSE {
 
-	private byte[] K = Hex.decode("404142434445464748494a4b4c4d4e4f");
-	private byte[] N = Hex.decode("10111213141516");
-
 	public DSSE() {
-	}
-	
-	public byte[] generateCMAC(String msg)
-			throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchProviderException {
-		CMac cmac = new CMac(new AESFastEngine());
-		byte[] data = msg.getBytes("UTF-8");
-		byte[] output = new byte[cmac.getMacSize()];
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-		KeyGenerator generator = KeyGenerator.getInstance("AES", "BC");
-		generator.init(128);
-		Key keyToBeWrapped = generator.generateKey();
-		cmac.init(new KeyParameter(keyToBeWrapped.getEncoded()));
-		cmac.reset();
-		cmac.update(data, 0, data.length);
-		cmac.doFinal(output, 0);
-		return output;
-	}
-
-	protected String encryptCCM(String value) {
-		try {
-			IvParameterSpec iv = new IvParameterSpec(N);
-			SecretKeySpec skeySpec = new SecretKeySpec(K, "AES");
-			Cipher cipher = Cipher.getInstance("AES/CCM/NoPadding", "BC");
-			cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
-			byte[] encrypted = cipher.doFinal(value.getBytes());
-			return Base64.encodeBase64String(encrypted);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		return null;
-	}
-
-	protected String decryptCCM(String encrypted) {
-		try {
-			IvParameterSpec iv = new IvParameterSpec(N);
-			SecretKeySpec skeySpec = new SecretKeySpec(K, "AES");
-			Cipher cipher = Cipher.getInstance("AES/CCM/NoPadding", "BC");
-			cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-			byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
-			return new String(original);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return null;
 	}
 
 	protected void wordExtract() {
