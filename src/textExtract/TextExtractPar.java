@@ -74,7 +74,7 @@ public class TextExtractPar implements Serializable {
 	// association between the keyword and documents that contain the keyword
 
 	Multimap<String, String> lookup1 = ArrayListMultimap.create();
-	static Multimap<String, String> lp1 = ArrayListMultimap.create();
+	public static Multimap<String, String> lp1 = ArrayListMultimap.create();
 
 	// lookup2 stores the document identifier (title) and the keywords contained
 	// in this document

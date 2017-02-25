@@ -84,32 +84,26 @@ public class XWPFWordExtractor extends POIXMLTextExtractor {
                      XWPFParagraph paragraph = i.next();
 
 
-                     try {
-                             CTSectPr ctSectPr = null;
-                             if (paragraph.getCTP().getPPr()!=null) {
-                                     ctSectPr = paragraph.getCTP().getPPr().getSectPr();
-                             }
+                     CTSectPr ctSectPr = null;
+					 if (paragraph.getCTP().getPPr()!=null) {
+					         ctSectPr = paragraph.getCTP().getPPr().getSectPr();
+					 }
 
-                             XWPFHeaderFooterPolicy headerFooterPolicy = null;
+					 XWPFHeaderFooterPolicy headerFooterPolicy = null;
 
-                             if (ctSectPr!=null) {
-                                     headerFooterPolicy = new XWPFHeaderFooterPolicy(document, ctSectPr);
+					 if (ctSectPr!=null) {
+					         headerFooterPolicy = new XWPFHeaderFooterPolicy(document, ctSectPr);
 
-                                     extractHeaders(text, headerFooterPolicy);
-                             }
+					         extractHeaders(text, headerFooterPolicy);
+					 }
 
-                             XWPFParagraphDecorator decorator = new XWPFCommentsDecorator(
-                                             new XWPFHyperlinkDecorator(paragraph, null, fetchHyperlinks));
-                             text.append(decorator.getText()).append('\n');
+					 XWPFParagraphDecorator decorator = new XWPFCommentsDecorator(
+					                 new XWPFHyperlinkDecorator(paragraph, null, fetchHyperlinks));
+					 text.append(decorator.getText()).append('\n');
 
-                             if (ctSectPr!=null) {
-                                     extractFooters(text, headerFooterPolicy);
-                             }
-                     } catch (IOException e) {
-                             throw new POIXMLException(e);
-                     } catch (XmlException e) {
-                             throw new POIXMLException(e);
-                     }
+					 if (ctSectPr!=null) {
+					         extractFooters(text, headerFooterPolicy);
+					 }
              }
 
 		// Then our table based text

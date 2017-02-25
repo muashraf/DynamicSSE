@@ -26,8 +26,9 @@ import org.bouncycastle.crypto.macs.CMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.util.encoders.Hex;
 
-import textExtract.TextExtractPar;
+
 import textExtract.TextProc;
+import textExtract.TextExtractPar;
 
 public class DSSE {
 
@@ -37,6 +38,22 @@ public class DSSE {
 	public DSSE() {
 	}
 	
+	
+	public static void main(String args[])
+	{
+		BufferedReader buffReader = new BufferedReader(new InputStreamReader(System.in));
+		String path = null;
+		System.out.println("Enter folder path to index files");
+		try 
+		{
+			path = buffReader.readLine();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		wordExtract(path);
+	}
 	public byte[] generateCMAC(String msg)
 			throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchProviderException {
 		CMac cmac = new CMac(new AESFastEngine());
@@ -82,18 +99,20 @@ public class DSSE {
 		return null;
 	}
 
-	protected void wordExtract() {
-		BufferedReader buffReader = new BufferedReader(new InputStreamReader(System.in));
-		String path = null;
-		try {
-			path = buffReader.readLine();
+	protected static void wordExtract(String filePath) {
 			ArrayList<File> listOfFiles = new ArrayList<File>();
-			TextProc.listf(path, listOfFiles);
-			TextProc.TextProc(false, path);
-		} catch (IOException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchAlgorithmException
-				| NoSuchProviderException | NoSuchPaddingException | InvalidKeySpecException e) {
-			e.printStackTrace();
-		}
+			TextProc.listf(filePath, listOfFiles);
+			try 
+			{
+				TextProc.TextProc(false, filePath);
+				System.out.println(TextExtractPar.lp1);
+			} 
+			catch (InvalidKeyException | InvalidAlgorithmParameterException | NoSuchAlgorithmException
+					| NoSuchProviderException | NoSuchPaddingException | InvalidKeySpecException | IOException e) 
+			{
+				e.printStackTrace();
+			}
+		 
 	}
 
 }
