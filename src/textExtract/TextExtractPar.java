@@ -80,7 +80,7 @@ public class TextExtractPar implements Serializable {
 	// in this document
 
 	Multimap<String, String> lookup2 = ArrayListMultimap.create();
-	static Multimap<String, String> lp2 = ArrayListMultimap.create();
+	public static Multimap<String, String> lp2 = ArrayListMultimap.create();
 
 	static int counter = 0;
 

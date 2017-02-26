@@ -1,13 +1,8 @@
 package com.dynamic.sse;
 
-import java.io.UnsupportedEncodingException;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.security.Security;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.crypto.Cipher;
@@ -20,7 +15,6 @@ import org.bouncycastle.crypto.engines.AESFastEngine;
 import org.bouncycastle.crypto.macs.CMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.prng.ThreadedSeedGenerator;
-import org.bouncycastle.util.encoders.Hex;
 
 public class CryptoPrimitives {
 
@@ -28,16 +22,14 @@ public class CryptoPrimitives {
 
 	}
 
-	public static List<byte[]> keyGen(int keySize) throws Exception {
+	public List<byte[]> keyGen() throws Exception {
 
 		List<byte[]> listOfkeys = new ArrayList<byte[]>();
 
-		// Generation of two keys for CMAC
-		listOfkeys.add(keyGenCMAC());
-		listOfkeys.add(keyGenCMAC());
-
-		// Generation of two keys for CCM
-		listOfkeys.add(keyGenForCCM());
+		// Generation of two keys for CMAC/CCM
+		listOfkeys.add(keyGeneration());
+		listOfkeys.add(keyGeneration());
+		listOfkeys.add(keyGeneration());
 
 		// Generation random vector for CCM
 		listOfkeys.add(randomBytes(8));
@@ -46,18 +38,11 @@ public class CryptoPrimitives {
 
 	}
 
-	public static byte[] keyGenCMAC() throws Exception {
+	public static byte[] keyGeneration() throws Exception {
 		KeyGenerator generator = KeyGenerator.getInstance("AES", "BC");
 		generator.init(128);
 		Key keyToBeWrapped = generator.generateKey();
 		return keyToBeWrapped.getEncoded();
-	}
-
-	public static byte[] keyGenForCCM() throws Exception {
-		SecureRandom random = new SecureRandom();
-		byte[] bytes = new byte[16]; // 128 bits are converted to 16 bytes;
-		random.nextBytes(bytes);
-		return bytes;
 	}
 
 	public static byte[] randomBytes(int sizeOfSalt) {
