@@ -63,8 +63,7 @@ public class DSSE {
 		{
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			byte a[] = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
-			String s = a.toString();
+			String s = cp.generateCMAC(listSK.get(0), key.toString());
 			ArrayList<Integer> temp = new ArrayList<Integer>();
 			temp.add(i++);
 			temp.add(0);
@@ -87,8 +86,7 @@ public class DSSE {
 		{
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			byte a[] = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
-			String s = a.toString();
+			String s = cp.generateCMAC(listSK.get(0), key.toString());
 			ArrayList<Integer> temp = new ArrayList<Integer>();
 			temp.add(j++);
 			temp.add(0);
