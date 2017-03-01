@@ -295,7 +295,7 @@ public class TextExtractPar implements Serializable {
 					COSDocument cd = parser.getDocument();
 					PDFTextStripper stripper = new PDFTextStripper();
 					lines.add(stripper.getText(new PDDocument(cd)));
-
+					cd.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					System.out.println("File not read: " + file.getName());

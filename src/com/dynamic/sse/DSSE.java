@@ -11,14 +11,19 @@ import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.crypto.NoSuchPaddingException;
 
+import com.dynamic.sse.CryptoPrimitives;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.sun.corba.se.impl.ior.ByteBuffer;
 
 import textExtract.TextExtractPar;
 import textExtract.TextProc;
@@ -37,15 +42,68 @@ public class DSSE {
 		BufferedReader buffReader = new BufferedReader(new InputStreamReader(System.in));
 		String path = null;
 		System.out.println("Enter folder path to index files");
-		try {
+		
+		try 
+		{
 			path = buffReader.readLine();
-		} catch (IOException e) {
+		}
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
+		
 		wordExtract(path);
 		listSK = cp.keyGen();
 		DSSE dsse = new DSSE();
 		dsse.encryptFiles();
+		ArrayList<String> ab = new ArrayList<String>();
+		HashMap<String,ArrayList<Integer>> wordTable = new HashMap<String,ArrayList<Integer>>();
+		int i = 0;
+		for( Entry<String, Collection<String>> entry : words.asMap().entrySet())
+		{
+			Object key = entry.getKey();
+			Object value = entry.getValue();
+			byte a[] = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
+			String s = a.toString();
+			ArrayList<Integer> temp = new ArrayList<Integer>();
+			temp.add(i++);
+			temp.add(0);
+			wordTable.put(s, temp);
+		}
+		
+		for (Entry<String, ArrayList<Integer>> ee : wordTable.entrySet()) {
+		    String key = ee.getKey();
+		    List<Integer> values = ee.getValue();
+		    System.out.println("Hash Table for words");
+		   System.out.println(key + " :::::: " + values);
+		}
+		
+		
+		System.out.println("/////////////////////////////////////////");
+		
+		HashMap<String,ArrayList<Integer>> fileTable = new HashMap<String,ArrayList<Integer>>();
+		int j = 0;
+		for( Entry<String, Collection<String>> entry : files.asMap().entrySet())
+		{
+			Object key = entry.getKey();
+			Object value = entry.getValue();
+			byte a[] = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
+			String s = a.toString();
+			ArrayList<Integer> temp = new ArrayList<Integer>();
+			temp.add(j++);
+			temp.add(0);
+			fileTable.put(s, temp);
+		}
+		
+		for (Entry<String, ArrayList<Integer>> ee : fileTable.entrySet()) 
+		{
+			
+		    String key = ee.getKey();
+		    List<Integer> values = ee.getValue();
+		    
+		    System.out.println("Hash Table for files");
+		    System.out.println(key + " :::::: " + values);
+		}
 	}
 
 	private void encryptFiles() {
