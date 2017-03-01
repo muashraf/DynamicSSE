@@ -2,6 +2,7 @@ package com.dynamic.sse;
 
 import java.security.Key;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.bouncycastle.crypto.engines.AESFastEngine;
 import org.bouncycastle.crypto.macs.CMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.prng.ThreadedSeedGenerator;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class CryptoPrimitives {
 
@@ -25,7 +27,7 @@ public class CryptoPrimitives {
 	public List<byte[]> keyGen() throws Exception {
 
 		List<byte[]> listOfkeys = new ArrayList<byte[]>();
-
+		Security.addProvider(new BouncyCastleProvider());
 		// Generation of two keys for CMAC/CCM
 		listOfkeys.add(keyGeneration());
 		listOfkeys.add(keyGeneration());
