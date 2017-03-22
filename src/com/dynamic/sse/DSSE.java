@@ -60,6 +60,8 @@ public class DSSE {
 		Set<String> words = TextExtractPar.lp1.keySet();
 		Set<String> files = TextExtractPar.lp2.keySet();
 		
+		int[][] Delta = new int[TextExtractPar.lp1.keySet().size()][TextExtractPar.lp2.keySet().size()];
+		
 		HashMap<String,ArrayList<Integer>> wordTable = new HashMap<String,ArrayList<Integer>>();
 		int i = 0;
 		for( String w: words)
