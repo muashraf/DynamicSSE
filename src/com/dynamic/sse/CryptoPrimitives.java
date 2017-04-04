@@ -56,7 +56,7 @@ public class CryptoPrimitives {
 		return salt;
 	}
 
-	public byte[] generateCMAC(byte[] key, String msg) throws Exception {
+	public String generateCMAC(byte[] key, String msg) throws Exception {
 		CMac cmac = new CMac(new AESFastEngine());
 		byte[] data = msg.getBytes("UTF-8");
 		byte[] output = new byte[cmac.getMacSize()];
@@ -64,7 +64,7 @@ public class CryptoPrimitives {
 		cmac.reset();
 		cmac.update(data, 0, data.length);
 		cmac.doFinal(output, 0);
-		return output;
+		return Base64.encodeBase64String(output);
 	}
 
 	protected String encryptCCM(byte[] key, byte[] vector, String msg) {
