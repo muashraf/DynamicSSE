@@ -57,7 +57,7 @@ public class DSSE {
 		for( Entry<String, Collection<String>> entry : words.asMap().entrySet())
 		{
 			Object key = entry.getKey();
-			byte wordList[] = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
+			String wordList = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
 			String words = wordList.toString();
 			ArrayList<Integer> state = new ArrayList<Integer>();
 			state.add(i++);
@@ -80,7 +80,7 @@ public class DSSE {
 		for( Entry<String, Collection<String>> entry : files.asMap().entrySet())
 		{
 			Object key = entry.getKey();
-			byte a[] = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
+			String a = (new CryptoPrimitives()).generateCMAC(listSK.get(0), key.toString());
 			String s = a.toString();
 			ArrayList<Integer> temp = new ArrayList<Integer>();
 			temp.add(j++);
